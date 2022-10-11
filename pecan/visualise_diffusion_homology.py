@@ -84,6 +84,9 @@ if __name__ == '__main__':
     # optional third dimension is ignored.
     pd = data['diffusion_homology_persistence_pairs']
 
+
+    print(data['data_t_7'])
+
     ax[1].set_title('Diffusion barcode')
     ax[1].set_xlim(0, np.max(pd[:, 1]))     # Length of longest bar
     ax[1].set_ylim(0, len(pd[:, 1]))        # How many bars?

@@ -183,7 +183,8 @@ if __name__ == '__main__':
         )
 
         # TODO: make configurable
-        ani.save('/tmp/Condensation_%03d.png', writer='imagemagick')
+        ani.save('tmp/Condensation_%03d.png', writer='imagemagick')
+        #ani.save('Condensation_%03d.png', writer='imagemagick')
 
     plt.tight_layout()
     plt.show()
