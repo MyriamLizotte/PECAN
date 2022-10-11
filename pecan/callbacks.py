@@ -12,7 +12,7 @@ from abc import abstractmethod
 from sklearn.decomposition import PCA
 from sklearn.neighbors import NearestNeighbors
 
-from pyrivet import rivet
+#from pyrivet import rivet
 
 from ripser import Ripser
 from utilities import UnionFind
@@ -532,3 +532,4 @@ class CalculateTangentSpace(Callback):
         # the optimisation function.
         A = A.ravel()
         return loss
+
