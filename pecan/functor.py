@@ -59,8 +59,11 @@ class DiffusionCondensation:
         if self.kernel_fn is None:
             self.kernel_fn = self.make_affinity_matrix
 
-    def __call__(self, X, epsilon):
-        """Run condensation process for a given data set."""
+    def __call__(self, X, epsilon, alpha):
+        """Run condensation process for a given data set.
+            #alpha is memory parameter that controls how much impact the average has. default 1, recommended > 0.9
+        """
+
         n = X.shape[0]
 
         # Denotes the previous density measurement, which is initialised to
@@ -88,6 +91,9 @@ class DiffusionCondensation:
             callback(i, X, np.identity(n), euclidean_distances(X))
 
         logging.info('Started diffusion condensation process')
+        
+        
+        previous_P_with_memory=np.zeros(n) # used in diffusion operator update with memory
 
         with yaspin(spinner=Spinners.dots) as sp:
             while i - j > 1:
@@ -116,6 +122,15 @@ class DiffusionCondensation:
 
                     for callback in self.callbacks:
                         callback(i, X, P, D)
+
+
+
+                    # Add memory of past iterations
+                    P_with_memory = alpha*P + (1-alpha)* previous_P_with_memory
+
+                    previous_P_with_memory= P_with_memory # +average_past_operators 
+                    # done with memory part
+
 
                     X = P @ X
 

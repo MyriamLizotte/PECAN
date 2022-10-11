@@ -15,7 +15,6 @@ from callbacks import CalculateDiffusionHomology
 from callbacks import CalculatePersistentHomology
 
 from functor import DiffusionCondensation
-
 from kernels import get_kernel_fn
 
 from utilities import estimate_epsilon
@@ -131,6 +130,14 @@ if __name__ == '__main__':
              'whenever it is appropriate.'
     )
 
+
+    parser.add_argument(
+        '-a', '--alpha',
+        default=1.0,
+        type=float,
+        help='Alpha parameter for the weight given to the memory of previous operators. By default 1.'
+    )
+
     args = parser.parse_args()
     this = sys.modules[__name__]
 
@@ -232,7 +239,7 @@ if __name__ == '__main__':
         callbacks=callbacks,
         kernel_fn=kernel_fn
     )
-    data = diffusion_condensation(X, args.epsilon)
+    data = diffusion_condensation(X, args.epsilon, args.alpha)
 
     logging.info(f'Storing results in {output_filename}')
     np.savez(output_filename, **data)
